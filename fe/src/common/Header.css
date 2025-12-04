@@ -1,0 +1,286 @@
+/* ===== RESET ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+}
+
+/* ===== HEADER ===== */
+header.hdt-header {
+  width: 100%;
+  background: linear-gradient(-45deg, #f8e8ee, #ffffff, #faebf2, #fff7fa);
+  background-size: 400% 400%;
+  animation: gradientBg 9s ease infinite;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+  position: sticky;
+  top: 0;
+  z-index: 999;
+}
+
+/* Gradient Animation */
+@keyframes gradientBg {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* ===== TOP BAR ===== */
+.hdt-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+}
+
+/* Logo */
+.hdt-logo img {
+  height: 120px;
+  width: auto;
+  transition: transform 0.25s;
+  padding-left: 150px;
+}
+.hdt-logo img:hover {
+  transform: scale(1.05);
+}
+
+/* Search */
+.hdt-search {
+  flex: 1 300px;
+  max-width: 600px;
+  position: relative;
+}
+.hdt-search input {
+  width: 100%;
+  font-size: 14px;
+  border-radius: 30px;
+  border: 1px solid #ddd;
+  padding: 8px 15px;
+  outline: none;
+  height: 47px;
+}
+
+/* Dropdown search */
+.search-suggestions {
+  position: absolute;
+  top: 105%;
+  left: 0;
+  width: 100%;
+  background: #f3eff4;
+  border-radius: 30px;
+  border: 1px solid #fffefe;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  max-height: 300px;
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+.suggestion-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.suggestion-item:hover {
+  background-color: #f8f8f8;
+}
+
+.suggestion-img {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.suggestion-name {
+  font-size: 0.9rem;
+  color: #333;
+}
+
+/* Cart */
+.hdt-cart {
+  font-size: 26px;
+  color: #d94880;
+  flex-shrink: 0;
+  cursor: pointer;
+  margin-left: 20px;
+}
+
+/* User */
+.hdt-user {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.logged {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.header-avatar {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  object-fit: cover;
+  cursor: pointer;
+  border: 2px solid #e0d2e0;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  font-size: 1rem;
+}
+
+.user-name {
+  font-weight: 900;
+  color: #0c0c0c;
+  cursor: pointer;
+}
+
+.user-name:hover {
+  text-decoration: underline;
+}
+
+.user-email {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.logout-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.875rem;
+  color: #ef4444;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.logout-btn:hover {
+  color: #b91c1c;
+}
+
+.auth {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.auth a {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 11px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: 0.25s ease;
+}
+
+.login-btn,
+.register-btn {
+  color: #fff;
+  background: #d94880;
+}
+
+.login-btn:hover,
+.register-btn:hover {
+  background: #ff4c91;
+}
+
+/* ===== NAV ===== */
+.hdt-nav {
+  width: 100%;
+  border-top: 1px solid #ffd6e9;
+  margin-top: 5px;
+}
+.hdt-nav ul {
+  max-width: 1000px;
+  margin: auto;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+.hdt-nav li {
+  list-style: none;
+}
+.hdt-nav a {
+  text-decoration: none;
+  color: #c9346e;
+  font-weight: 600;
+  font-size: 15px;
+  padding-bottom: 4px;
+  border-bottom: 2px solid transparent;
+  transition:
+    color 0.25s,
+    border-bottom 0.25s;
+}
+.hdt-nav a:hover {
+  color: #ff4c91;
+  border-bottom: 2px solid #ff4c91;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+  .hdt-top {
+    flex-wrap: wrap;
+  }
+  .hdt-search {
+    max-width: 100%;
+    margin: 10px 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .hdt-nav ul {
+    gap: 18px;
+  }
+  .header-avatar {
+    width: 50px;
+    height: 50px;
+  }
+}
+.cart-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.cart-count {
+  position: absolute;
+  top: -5px;
+  right: -10px;
+  background-color: #ff4fa3; /* hồng đậm */
+  color: #fff;
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 50%;
+  font-weight: bold;
+  animation: cart-pop 0.25s ease-out;
+}
+
+@keyframes cart-pop {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}

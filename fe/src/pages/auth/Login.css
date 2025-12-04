@@ -1,0 +1,192 @@
+/* ===== Nền chung ===== */
+.login-background-login,
+.register-background-register {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  min-height: 100vh !important;
+  background: linear-gradient(135deg, #f7f5f6, #f1b8df) !important;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif !important;
+}
+
+/* ===== Card chung ===== */
+.login-card-login,
+.register-card-register {
+  background: linear-gradient(135deg, #f7f5f6, #f1b8df) !important;
+  border-radius: 18px !important;
+  padding: 38px 40px !important;
+  width: 100% !important;
+  max-width: 380px !important;
+  box-shadow: 0 12px 25px rgba(255, 51, 153, 0.15) !important;
+  text-align: center !important;
+  position: relative !important;
+  animation: fadeIn-card 0.8s ease-in-out !important;
+}
+
+/* ===== Animation chung ===== */
+@keyframes fadeIn-card {
+  from {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== Brand title ===== */
+.brand-title-login,
+.brand-title-register {
+  font-size: 1.9rem !important;
+  color: #ff3399 !important;
+  margin-bottom: 24px !important;
+  font-weight: 700 !important;
+}
+
+/* ===== Alert lỗi ===== */
+.alert-error-login,
+.alert-error-register {
+  color: #d8000c !important;
+  background-color: #ffbaba !important;
+  border-radius: 8px !important;
+  padding: 10px 15px !important;
+  margin-bottom: 18px !important;
+  font-size: 0.9rem !important;
+  border: 1px solid #f08080 !important;
+}
+
+/* ===== Form ===== */
+.login-form-login,
+.register-form-register {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 14px !important;
+}
+
+/* ===== Form group ===== */
+.form-group-login,
+.form-group-register {
+  display: flex !important;
+  flex-direction: column !important;
+  text-align: left !important;
+}
+
+.form-group-login label,
+.form-group-register label {
+  margin-bottom: 5px !important;
+  font-weight: 500 !important;
+  color: #333 !important;
+  font-size: 0.95rem !important;
+}
+
+/* ===== Input wrapper ===== */
+.input-icon-login,
+.input-icon-register {
+  position: relative !important;
+}
+
+.input-icon-login input,
+.input-icon-register input {
+  width: 107% !important;
+  padding: 10px 40px 10px 35px !important;
+  border-radius: 12px !important;
+  border: 1px solid #ffc0cb !important;
+  outline: none !important;
+  font-size: 1rem !important;
+  transition: all 0.25s ease !important;
+  background-color: #fff0f5 !important;
+}
+
+.input-icon-login input:focus,
+.input-icon-register input:focus {
+  border-color: #ff3399 !important;
+  box-shadow: 0 0 6px rgba(255, 51, 153, 0.3) !important;
+}
+
+/* ===== Icons inside input ===== */
+.input-icon-login svg,
+.input-icon-register svg {
+  position: absolute !important;
+  top: 50% !important;
+  left: 12px !important;
+  transform: translateY(-50%) !important;
+  color: #ff3399 !important;
+  font-size: 1rem !important;
+}
+
+/* ===== Toggle password ===== */
+.toggle-pass-login {
+  position: absolute !important;
+  top: 50% !important;
+  right: 12px !important;
+  transform: translateY(-50%) !important;
+  cursor: pointer !important;
+  color: #ff3399 !important;
+  font-size: 1.1rem !important;
+}
+
+/* ===== Forgot password ===== */
+.forgot-password-login {
+  display: block !important;
+  text-align: right !important;
+  font-size: 0.85rem !important;
+  margin-top: 5px !important;
+  color: #ff3399 !important;
+  cursor: pointer !important;
+}
+
+/* ===== Button chung ===== */
+.btn-login-login,
+.btn-register-register {
+  margin-top: 18px !important;
+  background: linear-gradient(to right, #ff99cc, #ff3399) !important;
+  color: #fff !important;
+  padding: 12px !important;
+  border: none !important;
+  border-radius: 12px !important;
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: all 0.3s !important;
+}
+
+.btn-login-login:hover,
+.btn-register-register:hover {
+  background: linear-gradient(to right, #ff3399, #ff66aa) !important;
+  box-shadow: 0 6px 12px rgba(255, 51, 153, 0.25) !important;
+}
+
+/* ===== Switch text ===== */
+.register-text-login,
+.register-switch-register {
+  margin-top: 14px !important;
+  font-size: 0.9rem !important;
+  color: #555 !important;
+  text-align: center !important;
+}
+
+.register-text-login span,
+.register-switch-register span {
+  color: #ff3399 !important;
+  cursor: pointer !important;
+  font-weight: 500 !important;
+}
+
+.register-text-login span:hover,
+.register-switch-register span:hover {
+  text-decoration: underline !important;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 480px) {
+  .login-card-login,
+  .register-card-register {
+    padding: 28px 20px !important;
+  }
+
+  .input-icon-login input,
+  .input-icon-register input {
+    padding-left: 30px !important;
+  }
+}

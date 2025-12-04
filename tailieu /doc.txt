@@ -1,0 +1,111 @@
+TÀI LIỆU PHÂN QUYỀN VÀ CẤU TRÚC HỆ THỐNG
+1. Cấu trúc Cơ sở dữ liệu
+
+Hệ thống được thiết kế với các bảng chính bao gồm:
+- users
+- categories
+- products
+- orders
+- order_items
+- reviews
+- quiz_results
+
+Dưới đây là mô tả chi tiết từng bảng và mối quan hệ:
+Bảng USERS
+
+- id (UUID, Primary Key)
+- name: tên người dùng
+- email: duy nhất
+- password: mật khẩu được mã hóa
+- role: ENUM('user', 'admin', 'super_admin')
+- skin_type: loại da (da_dau, da_kho, hon_hop, nhay_cam)
+- created_at: ngày tạo tài khoản
+
+Bảng CATEGORIES
+
+- id (UUID, Primary Key)
+- name: tên danh mục
+- description: mô tả chi tiết danh mục
+
+Bảng PRODUCTS
+
+- id (UUID, Primary Key)
+- name: tên sản phẩm
+- description: mô tả
+- price: giá tiền
+- image_url: ảnh minh họa
+- category_id: liên kết đến categories(id)
+- stock: số lượng tồn kho
+- rating: điểm đánh giá trung bình
+- skin_type: loại da phù hợp
+- created_at: ngày thêm sản phẩm
+
+Bảng ORDERS
+
+- id (UUID, Primary Key)
+- user_id: liên kết đến users(id)
+- total: tổng tiền
+- status: ENUM('pending','confirmed','shipped','completed','cancelled')
+- created_at: ngày tạo đơn hàng
+
+Bảng ORDER_ITEMS
+
+- id (UUID, Primary Key)
+- order_id: liên kết đến orders(id)
+- product_id: liên kết đến products(id)
+- quantity: số lượng mua
+- price: giá sản phẩm tại thời điểm mua
+
+Bảng REVIEWS
+
+- id (UUID, Primary Key)
+- product_id: liên kết đến products(id)
+- user_id: liên kết đến users(id)
+- rating: điểm đánh giá (1–5)
+- comment: nội dung nhận xét
+- created_at: ngày đăng đánh giá
+
+Bảng QUIZ_RESULTS
+
+- id (UUID, Primary Key)
+- user_id: liên kết đến users(id)
+- answers: lưu trữ kết quả bài quiz (JSON)
+- skin_type: kết quả loại da dự đoán
+- created_at: ngày tạo kết quả
+
+2. Flow phân quyền (Role-based Flow)
+
+Hệ thống chia thành 3 loại người dùng chính, mỗi loại có quyền hạn khác nhau.
+
+SUPER_ADMIN
+
+- Có toàn quyền hệ thống.
+- Quản lý tài khoản admin và user.
+- Theo dõi và thống kê doanh thu.
+- Xem lịch sử hành động (activity log) của admin và user.
+- Có thể thực hiện toàn bộ CRUD trên mọi bảng.
+
+ADMIN
+
+- Có quyền CRUD (Create, Read, Update, Delete) sản phẩm.
+- Quản lý danh mục (categories).
+- Quản lý đơn hàng (xác nhận, hủy đơn).
+- Xem đánh giá của khách hàng.
+- Không thể truy cập trang thống kê doanh thu hoặc lịch sử hành động.
+
+USER
+
+- Đăng ký, đăng nhập, cập nhật hồ sơ cá nhân.
+- Xem và mua sản phẩm.
+- Đánh giá sản phẩm (reviews).
+- Làm bài quiz để xác định loại da (quiz_results).
+- Theo dõi lịch sử đơn hàng của chính mình.
+
+Sơ đồ quyền hạn tổng quát
+
+SUPER_ADMIN → quản lý toàn bộ hệ thống (Admin + User)
+ADMIN → quản lý sản phẩm, đơn hàng
+USER → tương tác, mua hàng và để lại đánh giá
+const SERVICE_ID = "service_wzh1oai";
+const TEMPLATE_ID = "template_m79mlqc";
+const PUBLIC_KEY = "eQWJGLYw_u3FYSVuM";

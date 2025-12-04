@@ -1,0 +1,121 @@
+/* ==== Tổng Layout ==== */
+.admin-dashboard-container {
+  display: flex;
+  gap: 30px;
+  padding: 20px;
+}
+
+/* ==== Bên trái: Khung quản lý ==== */
+.admin-left {
+  width: 28%;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  height: fit-content;
+}
+
+.admin-left h2 {
+  margin-bottom: 20px;
+  font-size: 22px;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* Nút quản lý */
+.admin-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.admin-card-btn {
+  border: none;
+  padding: 18px;
+  background: linear-gradient(135deg, #ff9ecb, #ffd6e8);
+  border-radius: 12px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: 0.2s;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+  width: 100%;
+}
+
+.admin-card-btn:hover {
+  transform: translateY(-3px);
+  background: linear-gradient(135deg, #ff7eb4, #ffbad7);
+}
+
+/* ==== Bên phải: Thống kê ==== */
+.admin-right {
+  width: 72%;
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.stats-section h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+/* Card thống kê */
+.stats-cards {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.stats-cards .card {
+  flex: 1;
+  padding: 20px;
+  background: #f7f7f7;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.05);
+}
+
+.card h3 {
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+
+.card p {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+/* Chart Section */
+.chart-section {
+  margin-top: 30px;
+}
+
+.filter-row {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.filter-row select {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .admin-dashboard-container {
+    flex-direction: column;
+  }
+
+  .admin-left,
+  .admin-right {
+    width: 100%;
+  }
+
+  .stats-cards {
+    flex-direction: column;
+  }
+}
