@@ -59,6 +59,7 @@ export interface Product {
   created_by?: string | null; // id người tạo
   created_at?: Date;
   categories?: Category[];
+  is_hidden?: boolean;
 }
 
 // =========================

@@ -18,6 +18,7 @@ import cartRoutes from "./routes/cart_routes.js";
 import orderRoutes from "./routes/order_routes.js";
 import paymentRouter from "./routes/payment_routes.js";
 import adminStatsRouter from "./routes/adminStats.js"
+import reviewRouter from "./routes/review.js";
 
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
@@ -41,6 +42,8 @@ app.use("/api/cart", cartRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/payment", paymentRouter);
 app.use('/admin', adminStatsRouter);
+app.use("/api/reviews", reviewRouter);
+
 // ----------------- TEST ROUTE -----------------
 app.get("/", (req, res) => {
   res.send("✅ API is running!");

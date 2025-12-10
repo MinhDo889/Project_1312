@@ -51,6 +51,11 @@ Product.init(
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW,
     },
+    is_hidden: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    }
+    
   },
   {
     sequelize,

@@ -29,9 +29,7 @@ export const fetchProducts = createAsyncThunk<Product[], string | undefined>(
   async (category, { rejectWithValue }) => {
     try {
       let url = "/api/products";
-      if (category) {
-        url += `?category=${encodeURIComponent(category)}`;
-      }
+      if (category) url += `?category=${encodeURIComponent(category)}`;
       const res = await api.get(url);
       return res.data as Product[];
     } catch (err: any) {
@@ -83,7 +81,6 @@ export interface UpdateProductPayload {
   id: string;
   data: FormData;
 }
-
 export const updateProduct = createAsyncThunk<Product, UpdateProductPayload>(
   "products/updateProduct",
   async ({ id, data }, { rejectWithValue }) => {
@@ -114,6 +111,28 @@ export const deleteProduct = createAsyncThunk<string, string>(
         headers: { Authorization: `Bearer ${token}` },
       });
       return id;
+    } catch (err: any) {
+      return rejectWithValue(err.response?.data?.message || err.message);
+    }
+  }
+);
+
+// ========================
+// Toggle Hide/Show Product
+// ========================
+export const toggleHideProduct = createAsyncThunk<Product, string>(
+  "products/toggleHideProduct",
+  async (id, { rejectWithValue }) => {
+    try {
+      const token = localStorage.getItem("token");
+      const res = await api.patch(
+        `api/products/${id}/toggle-hide`,
+        {}, // ✅ gửi body rỗng thay vì null để tránh lỗi JSON parse
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      return res.data as Product;
     } catch (err: any) {
       return rejectWithValue(err.response?.data?.message || err.message);
     }
@@ -221,6 +240,27 @@ const productSlice = createSlice({
         }
       )
       .addCase(deleteProduct.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+
+      // toggleHideProduct
+      .addCase(toggleHideProduct.pending, (state) => {
+        state.loading = true;
+        state.error = undefined;
+      })
+      .addCase(
+        toggleHideProduct.fulfilled,
+        (state, action: PayloadAction<Product>) => {
+          state.loading = false;
+          state.products = state.products.map((p) =>
+            p.id === action.payload.id ? action.payload : p
+          );
+          if (state.productDetail?.id === action.payload.id)
+            state.productDetail = action.payload;
+        }
+      )
+      .addCase(toggleHideProduct.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       });

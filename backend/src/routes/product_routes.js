@@ -6,6 +6,7 @@ import {
   updateProduct,
   deleteProduct,
   searchProducts,
+  toggleHideProduct
 } from "../controllers/product_controller.js";
 import { verifyToken, authorizeRoles } from "../middleware/authMiddleware.js";
 import { uploadProductImage } from "../middleware/upload_product.js";
@@ -48,5 +49,12 @@ router.delete(
   authorizeRoles("super_admin"),
   deleteProduct
 );
+router.patch(
+  "/:id/toggle-hide",
+  verifyToken,
+  authorizeRoles("admin", "super_admin"),
+  toggleHideProduct
+);
+
 
 export default router;

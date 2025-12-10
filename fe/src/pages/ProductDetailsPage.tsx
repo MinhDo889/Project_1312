@@ -11,25 +11,38 @@ import Header from "../common/Header";
 import { toast } from "react-toastify";
 import "./css/ProductDetails.css";
 
+// Review slice
+import {
+  fetchReviewsByProduct,
+  type Review,
+} from "../redux/slices/reviewSlice";
+
 const BASE_URL = "http://localhost:3001";
 
 const ProductDetailsPage: React.FC = () => {
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
   const dispatch = useDispatch<AppDispatch>();
 
   const {
     productDetail: product,
-    loading,
-    error,
+    loading: productLoading,
+    error: productError,
   } = useSelector((state: RootState) => state.products);
+
   const { user } = useSelector((state: RootState) => state.auth);
+  const { reviews, loading: reviewLoading } = useSelector(
+    (state: RootState) => state.reviews
+  );
 
   const [quantity, setQuantity] = useState(1);
   const [addedEffect, setAddedEffect] = useState(false);
   const [addedText, setAddedText] = useState(false);
 
   useEffect(() => {
-    if (id) dispatch(fetchProductById(id));
+    if (id) {
+      dispatch(fetchProductById(id));
+      dispatch(fetchReviewsByProduct(id));
+    }
     return () => {
       dispatch(clearProductDetail());
     };
@@ -60,8 +73,8 @@ const ProductDetailsPage: React.FC = () => {
     }
   };
 
-  if (loading) return <p className="pd-loading">Đang tải...</p>;
-  if (error) return <p className="pd-error">{error}</p>;
+  if (productLoading) return <p className="pd-loading">Đang tải...</p>;
+  if (productError) return <p className="pd-error">{productError}</p>;
   if (!product) return <p>Không tìm thấy sản phẩm</p>;
 
   const imageUrl = product.image_url?.startsWith("http")
@@ -101,7 +114,7 @@ const ProductDetailsPage: React.FC = () => {
 
           <div className="pd-price-box">
             <p className="pd-price-sale">
-              {product.price.toLocaleString()}0 VNĐ
+              {product.price.toLocaleString()} VNĐ
             </p>
             <p className="pd-price-old">
               {(product.price * 1.2).toLocaleString()}00 VNĐ
@@ -114,9 +127,7 @@ const ProductDetailsPage: React.FC = () => {
             <button className="qty-btn" onClick={decrease}>
               <span className="minus-line"></span>
             </button>
-
             <div className="qty-display">{quantity}</div>
-
             <button className="qty-btn" onClick={increase}>
               <span className="plus-line"></span>
               <span className="plus-line vertical"></span>
@@ -142,6 +153,31 @@ const ProductDetailsPage: React.FC = () => {
           <p className="pd-description">
             {product.description || "Không có mô tả sản phẩm."}
           </p>
+
+          {/* ===== REVIEWS ===== */}
+          <div className="pd-reviews">
+            <h2>Đánh giá sản phẩm</h2>
+
+            {reviewLoading && (
+              <p className="reviews-loading">Đang tải đánh giá...</p>
+            )}
+
+            {!reviewLoading && reviews.length === 0 && (
+              <p className="reviews-empty">Chưa có đánh giá nào</p>
+            )}
+
+            <div className="reviews-list">
+              {reviews.map((r: Review) => (
+                <div key={r.id} className="review-item">
+                  <div className="review-header">
+                    <span className="review-user">{r.user_id}</span>
+                    <span className="review-rating">⭐ {r.rating}/5</span>
+                  </div>
+                  <p className="review-comment">{r.comment}</p>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </>

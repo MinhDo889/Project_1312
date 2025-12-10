@@ -1,234 +1,360 @@
-/* ===== Container chính ===== */
-.profile-container {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 2rem 1rem;
-  font-family: "Inter", sans-serif;
-  background-color: #fff;
+/* ================= General ================= */
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: #fff0f5; /* màu hồng nhạt tổng thể */
   color: #333;
+  margin: 0;
+  padding: 0;
 }
 
-.profile-container h1 {
-  text-align: center;
-  font-size: 2rem;
-  font-weight: 700;
-  color: #d63384;
-  margin-bottom: 2rem;
+.profile-container {
+  max-width: 1200px;
+  margin: 30px auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
 }
 
-/* ===== Layout hiển thị + form ===== */
+/* ================= Typography ================= */
+h2,
+h3 {
+  color: #ff69b4; /* hồng nổi bật */
+  font-weight: 600;
+}
+
+/* ================= Profile Layout ================= */
 .profile-layout {
   display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+  flex-wrap: wrap;
+  gap: 30px;
+  justify-content: space-between;
+  animation: fadeIn 0.6s ease-in-out;
 }
 
-/* Cột hiển thị thông tin */
+/* ================= Profile Info Card ================= */
 .profile-display {
-  background: #fff;
-  border-radius: 16px;
-  padding: 1.8rem;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.8rem;
+  flex: 1 1 280px;
+  background: #ffdbe7;
+  padding: 25px 20px;
+  border-radius: 20px;
+  box-shadow: 0 8px 25px rgba(255, 105, 180, 0.2);
+  text-align: center;
   transition:
     transform 0.3s ease,
     box-shadow 0.3s ease;
 }
 
 .profile-display:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px rgba(255, 105, 180, 0.3);
 }
 
-/* Avatar */
-.profile-display img,
-.profile-avatar img {
+.profile-display img {
   width: 130px;
   height: 130px;
-  border-radius: 50%;
   object-fit: cover;
-  border: 3px solid #ffd6e0;
-  transition: transform 0.3s ease;
+  border-radius: 50%;
+  margin-bottom: 15px;
+  border: 3px solid #ffb6c1;
 }
 
-.profile-display img:hover,
-.profile-avatar img:hover {
-  transform: scale(1.07);
+.profile-display p {
+  margin: 8px 0;
+  font-size: 14px;
 }
 
-/* ===== Button chuẩn (cả profile-btn và profile-btn-1) ===== */
 .profile-btn,
 .profile-btn-1 {
-  display: inline-block;
-  margin-top: 1rem;
-  padding: 0.65rem 1.5rem;
-  background-color: #ff85b3;
-  color: #fff;
+  margin-top: 15px;
+  padding: 10px 20px;
   border: none;
-  border-radius: 10px;
-  font-weight: 600;
+  border-radius: 12px;
+  background-color: #ff69b4;
+  color: #fff;
+  font-weight: 500;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(255, 133, 179, 0.4);
+  transition: 0.3s;
 }
 
-.profile-btn:hover,
-.profile-btn-1:hover {
-  background-color: #e055a3;
+.profile-btn:hover {
+  background-color: #ff1493;
   transform: translateY(-2px);
 }
 
-/* ===== Form chỉnh sửa ===== */
+/* ================= Profile Form Card ================= */
 .profile-form {
-  width: 100%;
-  background-color: #fff;
-  border-radius: 16px;
-  padding: 1.8rem;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-  overflow: hidden;
-  max-height: 0;
-  opacity: 0;
-  transform: translateY(-10px);
-  transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+  flex: 2 1 500px;
+  background: #ffdbe7;
+
+  padding: 25px 20px;
+  border-radius: 20px;
+  box-shadow: 0 8px 25px rgba(255, 105, 180, 0.15);
+  display: none;
+  flex-direction: column;
+  gap: 20px;
+  animation: slideIn 0.5s ease forwards;
 }
 
 .profile-form.active {
-  max-height: 1500px;
-  opacity: 1;
-  transform: translateY(0);
+  display: flex;
 }
 
-/* Avatar trong form */
 .profile-avatar {
+  text-align: center;
+}
+
+.profile-avatar img {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 10px;
+  border: 2px solid #ffb6c1;
+}
+
+.profile-avatar input {
+  display: block;
+  margin: 0 auto;
+}
+
+/* ================= Inputs ================= */
+.profile-field {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 1.5rem;
-}
-
-/* Field */
-.profile-field {
-  margin-bottom: 1.2rem;
-}
-
-.profile-field label {
-  display: block;
-  margin-bottom: 0.4rem;
-  font-weight: 500;
-  color: #d63384;
+  gap: 8px;
 }
 
 .profile-field input,
-.profile-field select {
-  width: 100%;
-  padding: 0.55rem 1rem;
+.profile-field select,
+.profile-field textarea {
+  padding: 10px 12px;
   border-radius: 12px;
-  border: 1px solid #ffd6e0;
-  font-size: 0.95rem;
-  transition: all 0.3s ease;
+  border: 1px solid #ffb6c1;
+  font-size: 14px;
+  transition:
+    border 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .profile-field input:focus,
-.profile-field select:focus {
-  border-color: #ff85b3;
+.profile-field select:focus,
+.profile-field textarea:focus {
+  border-color: #ff69b4;
+  box-shadow: 0 0 8px rgba(255, 105, 180, 0.3);
   outline: none;
-  box-shadow: 0 0 8px rgba(255, 133, 179, 0.3);
 }
 
 .input-error {
-  border-color: #f87171;
+  border-color: #ff4d4f;
 }
 
 .error-text {
-  color: #f87171;
-  font-size: 0.85rem;
-  margin-top: 0.2rem;
+  color: #ff4d4f;
+  font-size: 12px;
 }
 
-/* Suggestions dropdown */
-.suggestions-dropdown {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  width: 100%;
-  background-color: #fff;
-  border: 1px solid #ffd6e0;
-  border-radius: 10px;
-  max-height: 220px;
-  overflow-y: auto;
-  z-index: 100;
-  margin-top: 0.3rem;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-}
+/* ================= Orders Section ================= */
+.orders-section {
+  background: #ffdbe7;
 
-.suggestions-dropdown li {
-  padding: 0.7rem 1rem;
-  cursor: pointer;
-  transition: background 0.2s ease;
-}
-
-.suggestions-dropdown li:hover {
-  background-color: #ffe6f2;
-}
-
-.sub-address {
-  font-size: 0.85rem;
-  color: #777;
-}
-
-/* ===== Lịch sử đơn hàng ===== */
-
-.orders-section h2 {
-  font-size: 1.6rem;
-  color: #d63384;
-  font-weight: 600;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(255, 105, 180, 0.1);
+  animation: fadeIn 0.6s ease-in-out;
 }
 
 .order-list {
   list-style: none;
   padding: 0;
-  max-height: 420px;
-  overflow-y: auto;
-  border-radius: 16px;
-  border: 1px solid #ffd6e0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .order-item {
-  border-bottom: 1px solid #ffd6e0;
-  padding: 1rem;
+  background: #fbe4ec;
+
+  padding: 15px;
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(255, 105, 180, 0.1);
+  transition: transform 0.3s ease;
 }
 
-.order-item:last-child {
-  border-bottom: none;
+.order-item:hover {
+  transform: translateY(-3px);
 }
 
 .order-items {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
-  margin-top: 0.5rem;
+  gap: 15px;
+  margin-top: 10px;
 }
 
 .order-item-detail {
   display: flex;
-  gap: 0.8rem;
+  gap: 10px;
+  background: #fbe4ec;
+
+  padding: 10px;
+  border-radius: 12px;
   align-items: center;
-  flex: 1 1 220px;
+  flex: 1 1 200px;
+  transition: box-shadow 0.3s ease;
+}
+
+.order-item-detail:hover {
+  box-shadow: 0 6px 16px rgba(255, 105, 180, 0.15);
 }
 
 .order-item-detail img {
   width: 60px;
   height: 60px;
   object-fit: cover;
-  border-radius: 10px;
+  border-radius: 12px;
 }
 
-/* ===== Responsive ===== */
-@media (max-width: 768px) {
+/* ================= Review Button ================= */
+.review-btn {
+  margin-top: 5px;
+  padding: 6px 12px;
+  border-radius: 10px;
+  border: none;
+  background-color: #ff69b4;
+  color: #fff;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.review-btn:hover {
+  background-color: #ff1493;
+  transform: translateY(-2px);
+}
+
+/* ================= Review Form ================= */
+.review-form-section {
+  margin-top: 30px;
+  background: #fff;
+  padding: 25px 20px;
+  border-radius: 20px;
+  box-shadow: 0 8px 25px rgba(255, 105, 180, 0.15);
+  max-width: 600px;
+  animation: slideIn 0.5s ease forwards;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+.form-group select,
+.form-group textarea {
+  padding: 10px;
+  border-radius: 12px;
+  border: 1px solid #ffb6c1;
+  font-size: 14px;
+  transition:
+    border 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.form-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.form-actions button {
+  padding: 10px 20px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.form-actions button[type="submit"] {
+  background-color: #ff69b4;
+  color: #fff;
+}
+
+.form-actions button[type="submit"]:hover {
+  background-color: #ff1493;
+  transform: translateY(-2px);
+}
+
+.review-cancel {
+  background-color: #ffb6c1;
+  color: #fff;
+}
+
+.review-cancel:hover {
+  background-color: #ff69b4;
+  transform: translateY(-2px);
+}
+
+/* ================= Address Suggestions ================= */
+.suggestions-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: #fff;
+  border: 1px solid #ffb6c1;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 10;
+  border-radius: 0 0 12px 12px;
+  animation: fadeIn 0.3s ease;
+}
+
+.suggestions-dropdown li {
+  padding: 8px 10px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.suggestions-dropdown li:hover {
+  background-color: #ffe6f0;
+}
+
+.sub-address {
+  font-size: 12px;
+  color: #666;
+}
+
+/* ================= Animations ================= */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ================= Responsive ================= */
+@media (max-width: 900px) {
   .profile-layout {
     flex-direction: column;
   }

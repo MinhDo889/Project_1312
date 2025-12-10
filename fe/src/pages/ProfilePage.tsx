@@ -12,6 +12,9 @@ import Header from "../common/Header";
 import { toast } from "react-toastify";
 import "./css/ProfilePage.css";
 
+// Review slice (chỉ dùng để tạo review)
+import { createReview } from "../redux/slices/reviewSlice";
+
 const BASE_URL = "http://localhost:3001";
 const GEO_API_KEY = "223a868730c248428b0b3ff06e07e0b1";
 
@@ -44,6 +47,12 @@ const ProfilePage: React.FC = () => {
   const [addressSuggestions, setAddressSuggestions] = useState<any[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
 
+  // Review form
+  const [reviewProductId, setReviewProductId] = useState<string>("");
+  const [rating, setRating] = useState(5);
+  const [comment, setComment] = useState("");
+
+  // Load provinces
   useEffect(() => {
     fetch("https://provinces.open-api.vn/api/?depth=1")
       .then((res) => res.json())
@@ -87,6 +96,7 @@ const ProfilePage: React.FC = () => {
     setAddressSuggestions([]);
   };
 
+  // Load profile & orders
   useEffect(() => {
     if (user?.id) {
       dispatch(fetchProfile(user.id));
@@ -94,6 +104,7 @@ const ProfilePage: React.FC = () => {
     }
   }, [user?.id, dispatch]);
 
+  // Sync profile to form
   useEffect(() => {
     if (profile) {
       setFormData({
@@ -174,6 +185,27 @@ const ProfilePage: React.FC = () => {
     }
   };
 
+  // Handle review submit
+  const handleSubmitReview = async () => {
+    if (!user?.id || !reviewProductId) return;
+    try {
+      await dispatch(
+        createReview({
+          user_id: user.id,
+          product_id: reviewProductId,
+          rating,
+          comment,
+        })
+      ).unwrap();
+      toast.success("Đánh giá đã được gửi!");
+      setComment("");
+      setRating(5);
+      setReviewProductId(""); // đóng form sau khi gửi
+    } catch {
+      toast.error("Gửi đánh giá thất bại!");
+    }
+  };
+
   if (!user) return <p>Vui lòng đăng nhập để xem profile</p>;
 
   return (
@@ -206,7 +238,7 @@ const ProfilePage: React.FC = () => {
             </button>
           </div>
 
-          {/* FORM xuất hiện bên dưới */}
+          {/* FORM cập nhật profile */}
           <form
             className={`profile-form ${showForm ? "active" : ""}`}
             onSubmit={handleSubmit}
@@ -235,7 +267,7 @@ const ProfilePage: React.FC = () => {
             </div>
 
             <div className="profile-field" style={{ position: "relative" }}>
-              <label>Địa chỉ (Số nhà, đường, phường):</label>
+              <label>Địa chỉ:</label>
               <input
                 type="text"
                 name="address"
@@ -324,6 +356,16 @@ const ProfilePage: React.FC = () => {
                         <p>{item.Product?.name}</p>
                         <p>SL: {item.quantity}</p>
                         <p>Giá: {item.price}</p>
+
+                        {/* BUTTON viết review */}
+                        <button
+                          className="review-btn"
+                          onClick={() =>
+                            setReviewProductId(item.Product?.id || "")
+                          }
+                        >
+                          Viết đánh giá
+                        </button>
                       </div>
                     </div>
                   ))}
@@ -332,6 +374,54 @@ const ProfilePage: React.FC = () => {
             ))}
           </ul>
         </div>
+
+        {reviewProductId && (
+          <form
+            className="review-form-section"
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleSubmitReview();
+            }}
+          >
+            <h3>Đánh giá sản phẩm</h3>
+
+            <div className="form-group">
+              <label htmlFor="rating">Rating:</label>
+              <select
+                id="rating"
+                value={rating}
+                onChange={(e) => setRating(Number(e.target.value))}
+              >
+                {[5, 4, 3, 2, 1].map((r) => (
+                  <option key={r} value={r}>
+                    {r} ⭐
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="comment">Bình luận:</label>
+              <textarea
+                id="comment"
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
+                placeholder="Viết bình luận của bạn..."
+              />
+            </div>
+
+            <div className="form-actions">
+              <button type="submit">Gửi đánh giá</button>
+              <button
+                type="button"
+                className="review-cancel"
+                onClick={() => setReviewProductId("")}
+              >
+                Hủy
+              </button>
+            </div>
+          </form>
+        )}
       </div>
     </>
   );

@@ -12,6 +12,7 @@ import {
   createProduct,
   updateProduct,
   deleteProduct,
+  toggleHideProduct,
 } from "../redux/slices/productSlice";
 import { fetchCategories } from "../redux/slices/categoriesSilce";
 import Header from "../common/Header";
@@ -28,16 +29,17 @@ const ProductAdminV2: React.FC = () => {
   // Form state
   const [form, setForm] = useState({
     name: "",
-    price: "",
+    price: 0,
     description: "",
     stock: 0,
     rating: 0,
     image: null as File | null,
     selectedCategories: [] as string[],
   });
+
   const [editId, setEditId] = useState<string | null>(null);
 
-  // Fetch products & categories
+  // Load products & categories
   useEffect(() => {
     dispatch(fetchProducts());
     dispatch(fetchCategories());
@@ -47,17 +49,17 @@ const ProductAdminV2: React.FC = () => {
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value, type } = e.target;
-    if (type === "number") {
-      setForm((prev) => ({ ...prev, [name]: Number(value) }));
-    } else {
-      setForm((prev) => ({ ...prev, [name]: value }));
-    }
+    setForm((prev) => ({
+      ...prev,
+      [name]: type === "number" ? Number(value) : value,
+    }));
   };
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     setForm((prev) => ({
       ...prev,
-      image: e.target.files ? e.target.files[0] : null,
+      image:
+        e.target.files && e.target.files.length > 0 ? e.target.files[0] : null,
     }));
   };
 
@@ -73,7 +75,7 @@ const ProductAdminV2: React.FC = () => {
   const resetForm = () => {
     setForm({
       name: "",
-      price: "",
+      price: 0,
       description: "",
       stock: 0,
       rating: 0,
@@ -85,34 +87,35 @@ const ProductAdminV2: React.FC = () => {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-
-    const formData = new FormData();
-    formData.append("name", form.name);
-    formData.append("price", form.price.toString());
-    formData.append("description", form.description);
-    formData.append("stock", form.stock.toString());
-    formData.append("rating", form.rating.toString());
-    if (form.image) formData.append("image", form.image);
-    form.selectedCategories.forEach((id) =>
-      formData.append("categoryIds[]", id)
-    );
-
     try {
+      const formData = new FormData();
+      formData.append("name", form.name);
+      formData.append("price", form.price.toString());
+      formData.append("description", form.description);
+      formData.append("stock", form.stock.toString());
+      formData.append("rating", form.rating.toString());
+
+      if (form.image) formData.append("image", form.image);
+      form.selectedCategories.forEach((id) =>
+        formData.append("categoryIds[]", id)
+      );
+
       if (editId) {
         await dispatch(updateProduct({ id: editId, data: formData })).unwrap();
       } else {
         await dispatch(createProduct(formData)).unwrap();
       }
+
       resetForm();
     } catch (err) {
-      console.error(err);
+      console.error("Lỗi khi gửi form:", err);
     }
   };
 
   const handleEdit = (product: Product) => {
     setForm({
       name: product.name,
-      price: product.price.toString(),
+      price: product.price || 0,
       description: product.description || "",
       stock: product.stock || 0,
       rating: product.rating || 0,
@@ -125,6 +128,16 @@ const ProductAdminV2: React.FC = () => {
   const handleDelete = (id: string) => {
     if (window.confirm("Bạn có chắc muốn xóa sản phẩm này?")) {
       dispatch(deleteProduct(id));
+    }
+  };
+
+  const handleToggleHidden = async (id: string) => {
+    try {
+      const updatedProduct = await dispatch(toggleHideProduct(id)).unwrap();
+      console.log("Sản phẩm đã cập nhật:", updatedProduct);
+      // UI tự động cập nhật nhờ slice
+    } catch (err) {
+      console.error("Lỗi khi ẩn/hiện sản phẩm:", err);
     }
   };
 
@@ -149,6 +162,7 @@ const ProductAdminV2: React.FC = () => {
             placeholder="Giá"
             value={form.price}
             onChange={handleChange}
+            min={0}
             required
           />
           <input
@@ -206,7 +220,10 @@ const ProductAdminV2: React.FC = () => {
 
         <div className="product-list">
           {products.map((p) => (
-            <div key={p.id} className="product-card">
+            <div
+              key={p.id}
+              className={`product-card ${p.is_hidden ? "hidden-product" : ""}`}
+            >
               <div className="product-info">
                 <strong>{p.name}</strong> - {p.price} VND
                 <p>
@@ -233,6 +250,12 @@ const ProductAdminV2: React.FC = () => {
                   onClick={() => handleDelete(p.id)}
                 >
                   Xóa
+                </button>
+                <button
+                  className="btn-secondary"
+                  onClick={() => handleToggleHidden(p.id)}
+                >
+                  {p.is_hidden ? "Hiện" : "Ẩn"}
                 </button>
               </div>
             </div>
