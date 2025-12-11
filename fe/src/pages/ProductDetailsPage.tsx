@@ -1,3 +1,4 @@
+// src/pages/ProductDetailsPage.tsx
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,6 +11,7 @@ import { addToCart, fetchCart } from "../redux/slices/cartSlice";
 import Header from "../common/Header";
 import { toast } from "react-toastify";
 import "./css/ProductDetails.css";
+import Footer from "../common/Footer";
 
 // Review slice
 import {
@@ -18,6 +20,8 @@ import {
 } from "../redux/slices/reviewSlice";
 
 const BASE_URL = "http://localhost:3001";
+// src/pages/ProductDetailsPage.tsx
+// ... giữ nguyên import, useEffect, fetch product/reviews ...
 
 const ProductDetailsPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -48,7 +52,17 @@ const ProductDetailsPage: React.FC = () => {
     };
   }, [id, dispatch]);
 
-  const increase = () => setQuantity((q) => q + 1);
+  // Kiểm tra is_hidden và stock
+  if (productLoading) return <p className="pd-loading">Đang tải...</p>;
+  if (productError) return <p className="pd-error">{productError}</p>;
+  if (!product) return <p>Không tìm thấy sản phẩm</p>;
+  if (product.is_hidden || (product.stock ?? 0) <= 0)
+    return <p>Sản phẩm hiện không khả dụng</p>;
+
+  // CHỈNH LẠI QUANTITY: không vượt quá stock
+  const increase = () => {
+    if (quantity < (product.stock ?? 1)) setQuantity((q) => q + 1);
+  };
   const decrease = () => setQuantity((q) => (q > 1 ? q - 1 : 1));
 
   const handleAddToCart = async () => {
@@ -56,6 +70,12 @@ const ProductDetailsPage: React.FC = () => {
 
     if (!user?.id) {
       toast.error("Bạn cần đăng nhập để thêm sản phẩm vào giỏ hàng!");
+      return;
+    }
+
+    if (quantity > (product.stock ?? 0)) {
+      toast.error(`Chỉ còn ${product.stock ?? 0} sản phẩm trong kho!`);
+      setQuantity(product.stock ?? 1);
       return;
     }
 
@@ -73,10 +93,6 @@ const ProductDetailsPage: React.FC = () => {
     }
   };
 
-  if (productLoading) return <p className="pd-loading">Đang tải...</p>;
-  if (productError) return <p className="pd-error">{productError}</p>;
-  if (!product) return <p>Không tìm thấy sản phẩm</p>;
-
   const imageUrl = product.image_url?.startsWith("http")
     ? product.image_url
     : `${BASE_URL}${product.image_url}`;
@@ -86,20 +102,17 @@ const ProductDetailsPage: React.FC = () => {
   return (
     <>
       <Header />
-
       <div className="pd-wrapper">
         {/* LEFT */}
         <div className="pd-left">
           <div className="pd-main-img-box">
             <img className="pd-main-img" src={imageUrl} alt={product.name} />
           </div>
-
           <div className="pd-thumbs">
             {[imageUrl, imageUrl, imageUrl].map((img, i) => (
               <img key={i} src={img} className="pd-thumb-img" alt="" />
             ))}
           </div>
-
           <div className="pd-share">
             <span>Chia sẻ:</span>
             <button className="pd-share-btn">Facebook</button>
@@ -111,7 +124,6 @@ const ProductDetailsPage: React.FC = () => {
         {/* RIGHT */}
         <div className="pd-right">
           <h1 className="pd-title">{product.name}</h1>
-
           <div className="pd-price-box">
             <p className="pd-price-sale">
               {product.price.toLocaleString()} VNĐ
@@ -125,11 +137,11 @@ const ProductDetailsPage: React.FC = () => {
           {/* QUANTITY */}
           <div className="pd-quantity-box fancy-quantity">
             <button className="qty-btn" onClick={decrease}>
-              <span className="minus-line"></span>
+              <span className="minus-line">-</span>
             </button>
             <div className="qty-display">{quantity}</div>
             <button className="qty-btn" onClick={increase}>
-              <span className="plus-line"></span>
+              <span className="plus-line">+</span>
               <span className="plus-line vertical"></span>
             </button>
           </div>
@@ -157,15 +169,12 @@ const ProductDetailsPage: React.FC = () => {
           {/* ===== REVIEWS ===== */}
           <div className="pd-reviews">
             <h2>Đánh giá sản phẩm</h2>
-
             {reviewLoading && (
               <p className="reviews-loading">Đang tải đánh giá...</p>
             )}
-
             {!reviewLoading && reviews.length === 0 && (
               <p className="reviews-empty">Chưa có đánh giá nào</p>
             )}
-
             <div className="reviews-list">
               {reviews.map((r: Review) => (
                 <div key={r.id} className="review-item">
@@ -180,6 +189,7 @@ const ProductDetailsPage: React.FC = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 };

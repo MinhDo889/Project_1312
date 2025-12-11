@@ -4,6 +4,8 @@ import { fetchCart, removeCartItem } from "../redux/slices/cartSlice";
 import type { RootState, AppDispatch } from "../redux/store";
 import { useNavigate } from "react-router-dom";
 import Header from "../common/Header";
+import Footer from "../common/Footer"; // ⭐ THÊM FOOTER
+
 import "./css/CartPage.css";
 import bannercart from "../imgList/bannercart.jpg";
 
@@ -13,14 +15,12 @@ const CartPage: React.FC = () => {
   const { items, loading } = useSelector((state: RootState) => state.cart);
   const BASE_URL = "http://localhost:3001";
 
-  // Track selected items
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
 
   useEffect(() => {
     dispatch(fetchCart());
   }, [dispatch]);
 
-  // When items change, auto-select all
   useEffect(() => {
     setSelectedItems(items.map((item) => item.id));
   }, [items]);
@@ -55,7 +55,6 @@ const CartPage: React.FC = () => {
     navigate(`/checkout/${userId}?items=${selectedItems.join(",")}`);
   };
 
-  // Total price only for selected items
   const totalPrice = items.reduce((sum, item) => {
     if (!selectedItems.includes(item.id)) return sum;
     const price = item.Product?.price ?? 0;
@@ -107,7 +106,6 @@ const CartPage: React.FC = () => {
                   return (
                     <li key={item.id} className="cart-item">
                       <div className="cart-item-left">
-                        {/* SINGLE CHECKBOX */}
                         <input
                           type="checkbox"
                           checked={selectedItems.includes(item.id)}
@@ -178,6 +176,9 @@ const CartPage: React.FC = () => {
           </div>
         )}
       </div>
+
+      {/* ⭐ FOOTER NGAY DƯỚI TRANG */}
+      <Footer />
     </>
   );
 };

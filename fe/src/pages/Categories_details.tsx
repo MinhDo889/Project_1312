@@ -7,8 +7,13 @@ import {
   type CategoryState,
 } from "../redux/slices/categoriesSilce";
 import type { RootState, AppDispatch } from "../redux/store";
+
 import Header from "../common/Header";
+import Footer from "../common/Footer"; // ✅ THÊM FOOTER
+
 import "./css/Categories_details.css";
+
+const BASE_URL = "http://localhost:3001";
 
 const CategoryDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -31,8 +36,13 @@ const CategoryDetailPage: React.FC = () => {
   if (error) return <p>Lỗi khi tải danh mục: {error}</p>;
   if (!categoryDetail) return <p>Không tìm thấy danh mục</p>;
 
-  // Filter sản phẩm theo tên
-  const filteredProducts = categoryDetail.products?.filter((p) =>
+  // Lọc sản phẩm: chỉ hiển thị chưa ẩn và còn hàng
+  const visibleProducts = categoryDetail.products?.filter(
+    (p) => !p.is_hidden && (p.stock ?? 0) > 0
+  );
+
+  // Filter theo tên
+  const filteredProducts = visibleProducts?.filter((p) =>
     p.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -48,11 +58,11 @@ const CategoryDetailPage: React.FC = () => {
   return (
     <>
       <Header />
-
       <div className="cat-detail-wrapper">
         {/* Bộ lọc bên trái */}
         <aside className="cat-filter-panel">
           <h3>Lọc sản phẩm</h3>
+
           <input
             type="text"
             placeholder="Tìm sản phẩm..."
@@ -72,7 +82,7 @@ const CategoryDetailPage: React.FC = () => {
           </select>
         </aside>
 
-        {/* Sản phẩm bên phải */}
+        {/* Danh sách sản phẩm */}
         <main className="cat-product-section">
           <header className="cat-header">
             <h1 className="cat-title">{categoryDetail.name}</h1>
@@ -89,7 +99,11 @@ const CategoryDetailPage: React.FC = () => {
                 >
                   {product.image_url ? (
                     <img
-                      src={`http://localhost:3001${product.image_url}`}
+                      src={
+                        product.image_url.startsWith("http")
+                          ? product.image_url
+                          : `${BASE_URL}${product.image_url}`
+                      }
                       alt={product.name}
                       className="cat-product-img"
                     />
@@ -108,6 +122,7 @@ const CategoryDetailPage: React.FC = () => {
           </div>
         </main>
       </div>
+      <Footer /> {/* ✅ FOOTER HIỆN CUỐI TRANG */}
     </>
   );
 };

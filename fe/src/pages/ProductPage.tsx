@@ -27,7 +27,6 @@ const ProductPage: React.FC = () => {
 
   return (
     <div className="product_page-container">
-
       {loading && (
         <div className="product_page-list">
           {Array(6)

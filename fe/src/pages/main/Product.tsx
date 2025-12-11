@@ -1,3 +1,4 @@
+// src/pages/products/Product.tsx
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -27,12 +28,17 @@ const Product: React.FC = () => {
 
   const handleCardClick = (id: string) => navigate(`/products/${id}`);
 
-  // Filter only by search term
-  const filteredProducts = products.filter((p) =>
+  // Lọc: chỉ hiển thị sản phẩm chưa ẩn và stock > 0
+  const visibleProducts = products.filter(
+    (p) => !p.is_hidden && (p.stock ?? 0) > 0
+  );
+
+  // Lọc theo search term
+  const filteredProducts = visibleProducts.filter((p) =>
     p.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // Sort
+  // Sắp xếp
   const sortedProducts = filteredProducts.sort((a, b) => {
     if (sortOption === "price-asc") return (a.price || 0) - (b.price || 0);
     if (sortOption === "price-desc") return (b.price || 0) - (a.price || 0);

@@ -19,8 +19,10 @@ import "react-toastify/dist/ReactToastify.css";
 // Admin Components
 import ProductAdmin from "./admin/ProductAdmin";
 import OrderAdmin from "./admin/orderAdmin";
-import ManageAdmin from "./admin/manageAdmin"; // ✅ Sửa tên + đường dẫn
-
+import ManageAdmin from "./admin/manageAdmin";
+import CategoriesAdmin from "./admin/CategoriesAdmin"; // ✅ Sửa tên + đường dẫn
+import BlogPage from "./pages/extra/blog";
+import BrandTimeline from "./pages/extra/brand";
 // Main pages
 import Product from "./pages/main/Product";
 
@@ -48,6 +50,9 @@ const App: React.FC = () => {
         <Route path="/product_admin" element={<ProductAdmin />} />
         <Route path="/order_admin" element={<OrderAdmin />} />
         <Route path="/manage_admin" element={<ManageAdmin />} />{" "}
+        <Route path="/categories_admin" element={<CategoriesAdmin />} />{" "}
+        <Route path="/blogs" element={<BlogPage />} />
+        <Route path="/brands" element={<BrandTimeline />} />
         {/* ← Sửa hoàn chỉnh */}
       </Routes>
     </BrowserRouter>

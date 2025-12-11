@@ -3,6 +3,8 @@ import Header from "../common/Header";
 import ProductPage from "../pages/ProductPage";
 import CategoriesPage from "../pages/CategoriesPage";
 
+import Footer from "../common/Footer"; // ⭐ THÊM FOOTER
+
 import banner1 from "../imgList/banner1.jpg";
 import banner2 from "../imgList/banner2.jpg";
 import banner3 from "../imgList/banner3.jpg";
@@ -16,7 +18,7 @@ const Home: React.FC = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % banners.length);
-    }, 5000); // 5s chuyển 1 lần
+    }, 5000);
     return () => clearInterval(interval);
   }, []);
 
@@ -38,7 +40,7 @@ const Home: React.FC = () => {
           height: "450px",
           borderRadius: "10px",
           overflow: "hidden",
-          cursor: "pointer", // cho người dùng biết click được
+          cursor: "pointer",
         }}
         onClick={handleBannerClick}
       >
@@ -77,7 +79,7 @@ const Home: React.FC = () => {
             <span
               key={idx}
               onClick={(e) => {
-                e.stopPropagation(); // tránh kích hoạt handleBannerClick
+                e.stopPropagation();
                 setCurrentIndex(idx);
               }}
               style={{
@@ -95,8 +97,10 @@ const Home: React.FC = () => {
       </div>
 
       <CategoriesPage />
-
       <ProductPage />
+
+      {/* ⭐ THÊM FOOTER Ở ĐÂY */}
+      <Footer />
     </>
   );
 };

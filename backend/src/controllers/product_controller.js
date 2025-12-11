@@ -13,6 +13,7 @@ import ProductCategory from "../models/product_category_models.js";
 // Lấy tất cả sản phẩm (kèm danh mục)
 export const getAllProducts = async (req, res) => {
   try {
+   
     const products = await Product.findAll({
       include: { model: Category, as: "categories" },
       order: [["created_at", "DESC"]],

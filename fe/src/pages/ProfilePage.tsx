@@ -11,6 +11,7 @@ import { fetchOrdersByUser } from "../redux/slices/orderSlice";
 import Header from "../common/Header";
 import { toast } from "react-toastify";
 import "./css/ProfilePage.css";
+import Footer from "../common/Footer";
 
 // Review slice (chỉ dùng để tạo review)
 import { createReview } from "../redux/slices/reviewSlice";
@@ -423,6 +424,7 @@ const ProfilePage: React.FC = () => {
           </form>
         )}
       </div>
+      <Footer />
     </>
   );
 };

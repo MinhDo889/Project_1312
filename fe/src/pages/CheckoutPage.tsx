@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import type { RootState, AppDispatch } from "../redux/store";
 import { createOrder, resetOrder } from "../redux/slices/orderSlice";
 import Header from "../common/Header";
+import Footer from "../common/Footer"; // ✅ Thêm Footer
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -29,7 +30,7 @@ const CheckoutPage: React.FC = () => {
 
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
   const [payment, setPayment] = useState<string>("cash");
-  const [orderSuccess, setOrderSuccess] = useState<boolean>(false); // trạng thái đặt hàng thành công
+  const [orderSuccess, setOrderSuccess] = useState<boolean>(false);
 
   useEffect(() => {
     setSelectedItems(items.map((i) => i.id));
@@ -70,6 +71,7 @@ const CheckoutPage: React.FC = () => {
       payment_method:
         payment === "cash" ? "Thanh toán khi nhận hàng" : "ZaloPay",
     };
+
     try {
       await send(SERVICE_ID, TEMPLATE_ID, templateParams, PUBLIC_KEY);
       toast.success("📧 Email xác nhận đã được gửi!");
@@ -100,7 +102,7 @@ const CheckoutPage: React.FC = () => {
 
     if (payment === "cash") {
       toast.success("🎉 Đặt hàng thành công! (Thanh toán khi nhận hàng)");
-      setOrderSuccess(true); // cập nhật trạng thái thành công
+      setOrderSuccess(true);
       dispatch(resetOrder());
       return;
     }
@@ -111,6 +113,7 @@ const CheckoutPage: React.FC = () => {
           amount: totalPrice,
           orderId: newId,
         });
+
         if (res.status === 200 && res.data.order_url) {
           toast.success("🔗 Chuyển đến trang ZaloPay...");
           window.open(res.data.order_url, "_blank");
@@ -142,6 +145,7 @@ const CheckoutPage: React.FC = () => {
             <h2>🎉 Đặt hàng thành công!</h2>
             <p>Mã đơn hàng: {order?.id || "Đang cập nhật..."}</p>
             <p>Tổng tiền: {totalPrice.toLocaleString("vi-VN")}.000 ₫</p>
+
             <button onClick={() => (window.location.href = "/product")}>
               Tiếp tục mua sắm
             </button>
@@ -172,6 +176,7 @@ const CheckoutPage: React.FC = () => {
                         checked={selectedItems.includes(item.id)}
                         onChange={() => toggleSelectItem(item.id)}
                       />
+
                       <div className="cart-item-left">
                         <img
                           src={
@@ -181,11 +186,13 @@ const CheckoutPage: React.FC = () => {
                           }
                           alt={item.Product?.name || "Product"}
                         />
+
                         <div className="cart-item-details">
                           <p>{item.Product?.name}</p>
                           <p>Số lượng: {item.quantity}</p>
                         </div>
                       </div>
+
                       <div className="cart-item-actions">
                         <p>
                           {(
@@ -203,8 +210,10 @@ const CheckoutPage: React.FC = () => {
             {/* RIGHT */}
             <div className="cart-summary">
               <h2>Order Summary</h2>
+
               <div className="payment-method-box">
                 <p>Phương thức thanh toán:</p>
+
                 <label>
                   <input
                     type="radio"
@@ -215,6 +224,7 @@ const CheckoutPage: React.FC = () => {
                   />
                   Thanh toán khi nhận hàng
                 </label>
+
                 <label>
                   <input
                     type="radio"
@@ -231,10 +241,12 @@ const CheckoutPage: React.FC = () => {
                 <span>Số sản phẩm đã chọn:</span>
                 <span>{selectedItems.length}</span>
               </div>
+
               <div className="summary-line">
                 <span>Tổng tiền:</span>
                 <span>{totalPrice.toLocaleString("vi-VN")}.000 đ</span>
               </div>
+
               {error && <p className="error-text">{error}</p>}
 
               <button
@@ -252,6 +264,9 @@ const CheckoutPage: React.FC = () => {
           </div>
         )}
       </div>
+
+      {/* ✅ FOOTER CUỐI TRANG */}
+      <Footer />
     </>
   );
 };

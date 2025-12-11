@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../common/Header";
 import "./manageAdmin.css";
+import { fetchProducts } from "../redux/slices/productSlice";
 
 import {
   Chart as ChartJS,
@@ -16,6 +17,8 @@ import {
 } from "chart.js";
 
 import { Doughnut, Line, Bar } from "react-chartjs-2";
+import { useDispatch, useSelector } from "react-redux";
+import type { AppDispatch, RootState } from "../redux/store";
 
 ChartJS.register(
   ArcElement,
@@ -27,6 +30,9 @@ ChartJS.register(
   LineElement,
   BarElement
 );
+
+// ======================= BASE URL =======================
+const BASE_URL = "http://localhost:3001";
 
 interface OrderStatus {
   status: string;
@@ -50,6 +56,16 @@ const AdminDashboard: React.FC = () => {
   const navigate = useNavigate();
   const [stats, setStats] = useState<Stats | null>(null);
 
+  const dispatch = useDispatch<AppDispatch>();
+  const { products } = useSelector((state: RootState) => state.products);
+
+  useEffect(() => {
+    dispatch(fetchProducts());
+  }, [dispatch]);
+
+  // =============== FILTER LOW STOCK PRODUCTS ===============
+  const lowStockProducts = products.filter((p) => (p.stock ?? 0) < 10);
+
   const [selectedMonth, setSelectedMonth] = useState("all");
   const [selectedYear, setSelectedYear] = useState("all");
   const [chartType, setChartType] = useState<"line" | "bar">("line");
@@ -57,10 +73,11 @@ const AdminDashboard: React.FC = () => {
   const pages = [
     { name: "Quản lý Sản phẩm", path: "/product_admin" },
     { name: "Quản lý Đơn hàng", path: "/order_admin" },
+    { name: "Quản lý Danh Mục", path: "/categories_admin" },
   ];
 
   useEffect(() => {
-    fetch("http://localhost:3001/admin/stats")
+    fetch(`${BASE_URL}/admin/stats`)
       .then((res) => res.json())
       .then((data) => setStats(data))
       .catch((err) => console.error(err));
@@ -114,9 +131,10 @@ const AdminDashboard: React.FC = () => {
       <Header />
 
       <div className="admin-dashboard-container">
-        {/* ============== LEFT PANEL ============== */}
+        {/* LEFT PANEL */}
         <div className="admin-left">
           <h2>Quản lý</h2>
+
           <div className="admin-grid">
             {pages.map((item) => (
               <button
@@ -128,9 +146,62 @@ const AdminDashboard: React.FC = () => {
               </button>
             ))}
           </div>
+
+          {/* ================= LOW STOCK PRODUCT LIST ================= */}
+          <div className="chart-section">
+            <h2>SẢN PHẨM SẮP HẾT HÀNG</h2>
+
+            {lowStockProducts.length === 0 ? (
+              <p className="no-low-stock">Tất cả sản phẩm đều đủ tồn kho.</p>
+            ) : (
+              <table className="low-stock-table">
+                <thead>
+                  <tr>
+                    <th>Ảnh</th>
+                    <th>Tên sản phẩm</th>
+                    <th>Tồn kho</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {lowStockProducts.map((p) => (
+                    <tr key={p.id}>
+                      <td>
+                        <img
+                          src={
+                            p.image_url
+                              ? `${BASE_URL}/${p.image_url.replace(/^\/+/, "")}`
+                              : "/no-image.png"
+                          }
+                          alt={p.name}
+                          style={{
+                            width: "50px",
+                            height: "50px",
+                            borderRadius: "5px",
+                            objectFit: "cover",
+                          }}
+                        />
+                      </td>
+
+                      <td>{p.name}</td>
+
+                      <td
+                        style={{
+                          color: (p.stock ?? 0) < 5 ? "red" : "orange",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        {p.stock ?? 0}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+          </div>
         </div>
 
-        {/* ============== RIGHT PANEL ============== */}
+        {/* RIGHT PANEL */}
         <div className="admin-right">
           {stats && (
             <div className="stats-section">
@@ -151,15 +222,24 @@ const AdminDashboard: React.FC = () => {
                 </div>
               </div>
 
-              {/* ========== ORDER STATUS CHART ========== */}
+              {/* ORDER STATUS CHART */}
               <div className="chart-section">
                 <h3>Biểu đồ trạng thái đơn hàng</h3>
-                <div style={{ width: "400px", margin: "0 auto" }}>
-                  <Doughnut data={orderChartData!} />
+
+                {/* ==== SMALLER DONUT CHART ==== */}
+                <div
+                  style={{ width: "300px", height: "300px", margin: "0 auto" }}
+                >
+                  {orderChartData && (
+                    <Doughnut
+                      data={orderChartData}
+                      options={{ maintainAspectRatio: false }}
+                    />
+                  )}
                 </div>
               </div>
 
-              {/* ========== REVENUE CHART ========== */}
+              {/* REVENUE CHART */}
               <div className="chart-section">
                 <h3>Doanh thu theo ngày</h3>
 
@@ -201,11 +281,20 @@ const AdminDashboard: React.FC = () => {
                   </select>
                 </div>
 
-                <div style={{ width: "850px", margin: "0 auto" }}>
+                {/* ==== SMALLER REVENUE CHART ==== */}
+                <div
+                  style={{ width: "600px", height: "300px", margin: "0 auto" }}
+                >
                   {chartType === "line" ? (
-                    <Line data={revenueData} />
+                    <Line
+                      data={revenueData}
+                      options={{ maintainAspectRatio: false }}
+                    />
                   ) : (
-                    <Bar data={revenueData} />
+                    <Bar
+                      data={revenueData}
+                      options={{ maintainAspectRatio: false }}
+                    />
                   )}
                 </div>
               </div>

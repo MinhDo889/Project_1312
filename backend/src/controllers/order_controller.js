@@ -110,7 +110,28 @@ export const getAllOrders = async (req, res) => {
   }
 };
 
-// -------------------- ADMIN: UPDATE ORDER STATUS --------------------
+// export const updateOrderStatus = async (req, res) => {
+//   try {
+//     const { order_id } = req.params;
+//     const { status } = req.body;
+
+//     const validStatuses = ["pending", "processing", "shipped", "completed", "cancelled"];
+//     if (!validStatuses.includes(status)) {
+//       return res.status(400).json({ error: "Invalid status" });
+//     }
+
+//     const order = await Order.findByPk(order_id);
+//     if (!order) return res.status(404).json({ error: "Order not found" });
+
+//     order.status = status;
+//     await order.save();
+
+//     return res.status(200).json({ order });
+//   } catch (err) {
+//     console.error("Update Order Status Error:", err);
+//     return res.status(500).json({ error: "Server error" });
+//   }
+// };
 export const updateOrderStatus = async (req, res) => {
   try {
     const { order_id } = req.params;
@@ -121,18 +142,53 @@ export const updateOrderStatus = async (req, res) => {
       return res.status(400).json({ error: "Invalid status" });
     }
 
-    const order = await Order.findByPk(order_id);
+    const order = await Order.findByPk(order_id, {
+      include: [
+        {
+          model: OrderItem,
+          include: [Product],
+        },
+      ],
+    });
+
     if (!order) return res.status(404).json({ error: "Order not found" });
 
+    // Nếu trạng thái mới là "completed" → tiến hành trừ tồn kho
+    if (status === "completed") {
+      for (const item of order.OrderItems) {
+        const product = item.Product;
+
+        if (!product) continue;
+
+        // Kiểm tra số lượng còn đủ hay không
+        if (product.stock < item.quantity) {
+          return res.status(400).json({
+            error: `Sản phẩm "${product.name}" không đủ số lượng trong kho`,
+          });
+        }
+
+        // Trừ stock
+        product.stock -= item.quantity;
+        await product.save();
+      }
+    }
+
+    // Cập nhật trạng thái đơn
     order.status = status;
     await order.save();
 
-    return res.status(200).json({ order });
+    return res.status(200).json({ message: "Order updated successfully", order });
   } catch (err) {
     console.error("Update Order Status Error:", err);
     return res.status(500).json({ error: "Server error" });
   }
 };
+
+
+
+
+
+
 
 // -------------------- ADMIN: DELETE ORDER --------------------
 export const deleteOrder = async (req, res) => {
