@@ -1,123 +1,175 @@
-/* Container */
+/* ========================= General ========================= */
 .admin-orders-container {
-  padding: 2rem;
-  font-family: "Inter", sans-serif;
-  background-color: #f9fafb;
-  min-height: 100vh;
+  max-width: 1200px;
+  margin: 30px auto;
+  padding: 20px;
+  font-family: "Poppins", sans-serif;
+  background-color: #fff0f5; /* hồng pastel nhạt */
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+  color: #333;
 }
 
-/* Heading */
 .admin-orders-container h1 {
-  font-size: 1.75rem;
-  font-weight: 700;
-  margin-bottom: 1.5rem;
-  color: #111827;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #d63384; /* hồng đậm tiêu đề */
+  font-size: 26px;
+  font-weight: 600;
 }
 
-/* Table container with scroll */
+/* ========================= Filters & Search ========================= */
+.order-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+  justify-content: center;
+  align-items: center;
+}
+
+.search-input,
+.status-filter,
+select {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #ffc0cb;
+  font-size: 14px;
+  outline: none;
+  transition: 0.3s;
+}
+
+.search-input:focus,
+.status-filter:focus,
+select:focus {
+  border-color: #d63384;
+  box-shadow: 0 0 5px rgba(214, 51, 132, 0.3);
+}
+
+.search-input {
+  width: 220px;
+}
+
+.status-filter {
+  width: 150px;
+}
+
+button {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 8px;
+  background-color: #ff85b3; /* hồng pastel */
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+button:hover {
+  background-color: #d63384;
+}
+
+/* ========================= Table ========================= */
 .table-wrapper {
   overflow-x: auto;
-  max-height: 70vh;
-  border-radius: 0.5rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  background-color: #ffffff;
 }
 
-/* Table */
 .admin-orders-table {
   width: 100%;
   border-collapse: collapse;
   min-width: 800px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(214, 51, 132, 0.1);
 }
 
 .admin-orders-table th,
 .admin-orders-table td {
-  padding: 0.75rem 1rem;
-  text-align: left;
-  border-bottom: 1px solid #e5e7eb;
+  padding: 12px 15px;
+  text-align: center;
+  font-size: 14px;
+  color: #333;
 }
 
-/* Sticky header */
-.admin-orders-table thead th {
-  position: sticky;
-  top: 0;
-  background-color: #f3f4f6;
+.admin-orders-table th {
+  background-color: #ff85b3; /* hồng pastel */
+  color: white;
   font-weight: 600;
-  color: #374151;
-  z-index: 10;
 }
 
-/* Row hover */
-.admin-orders-table tbody tr:hover {
-  background-color: #f9fafb;
-  transition: background-color 0.2s ease;
+.admin-orders-table tr:nth-child(even) {
+  background-color: #ffe6f0; /* hồng nhạt xen kẽ */
 }
 
-/* Status select */
+.admin-orders-table tr:hover {
+  background-color: #ffd1e3; /* hover hồng sáng */
+}
+
+/* ========================= Status Select ========================= */
 .status-select {
-  padding: 0.25rem 0.5rem;
-  border: 1px solid #d1d5db;
-  border-radius: 0.25rem;
-  background-color: #ffffff;
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid #ffc0cb;
+  font-size: 14px;
+  min-width: 110px;
   font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
 }
 
-/* Status colors */
+/* Status Colors */
 .status-pending {
-  color: #f59e0b;
-  font-weight: 600;
-}
-.status-processing {
-  color: #3b82f6;
-  font-weight: 600;
-}
-.status-shipped {
-  color: #10b981;
-  font-weight: 600;
-}
-.status-completed {
-  color: #16a34a;
-  font-weight: 600;
-}
-.status-cancelled {
-  color: #ef4444;
-  font-weight: 600;
+  background-color: #fff0f5;
+  color: #d63384;
 }
 
-/* Delete button */
+.status-processing {
+  background-color: #ffe6f0;
+  color: #d63384;
+}
+
+.status-shipped {
+  background-color: #ffe6f8;
+  color: #a8326f;
+}
+
+.status-completed {
+  background-color: #ffe0ec;
+  color: #6f0f3f;
+}
+
+.status-cancelled {
+  background-color: #ffd1e3;
+  color: #9a1f50;
+}
+
+/* ========================= Delete Button ========================= */
 .delete-btn {
-  background-color: #ef4444;
-  color: #ffffff;
-  padding: 0.25rem 0.5rem;
-  border-radius: 0.25rem;
-  font-weight: 500;
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: none;
+  background-color: #ff6b81; /* hồng đậm */
+  color: white;
   cursor: pointer;
-  transition: all 0.2s ease;
+  font-size: 14px;
+  transition: background 0.3s;
 }
 
 .delete-btn:hover {
-  background-color: #dc2626;
+  background-color: #d63384;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-  .admin-orders-table th,
-  .admin-orders-table td {
-    padding: 0.5rem;
-    font-size: 0.875rem;
+/* ========================= Responsive ========================= */
+@media screen and (max-width: 768px) {
+  .order-filters {
+    flex-direction: column;
+    align-items: stretch;
   }
 
-  .status-select,
-  .delete-btn {
-    font-size: 0.75rem;
-    padding: 0.2rem 0.4rem;
+  .search-input,
+  .status-filter,
+  select,
+  button {
+    width: 100%;
   }
-}
-.status-select:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-  background-color: #f3f3f3;
-  border: 1px solid #ddd;
 }
