@@ -75,9 +75,6 @@ const ProductPage: React.FC = () => {
               {/* Overlay */}
               {hoveredId === p.id && (
                 <div className="product_page-overlay">
-                  <p className="product_page-description">
-                    {p.description || "Không có mô tả"}
-                  </p>
                   <button
                     onClick={(e) => {
                       e.stopPropagation();

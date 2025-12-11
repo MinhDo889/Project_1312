@@ -1,134 +1,154 @@
-/* --- Container chính --- */
+/* ========================= Page Wrapper ========================= */
 .product-page-wrapper {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  padding: 30px;
+  background: #fff8fb; /* nền trắng hồng nhạt */
+  min-height: 100vh;
+  font-family: "Arial", sans-serif;
 }
 
-/* --- Toggle filter button --- */
+/* ========================= Filter Panel ========================= */
 .filter-toggle {
-  display: flex;
-  justify-content: flex-end;
   margin-bottom: 15px;
+  text-align: right;
 }
 
 .filter-toggle button {
   padding: 8px 16px;
-  background-color: #007bff;
+  background: #ff80bf;
+  color: #fff;
   border: none;
-  border-radius: 6px;
-  color: white;
-  font-weight: 500;
+  border-radius: 25px;
   cursor: pointer;
-  transition: all 0.2s ease-in-out;
+  font-weight: 600;
+  transition:
+    background 0.3s ease,
+    transform 0.3s ease;
 }
 
 .filter-toggle button:hover {
-  background-color: #0056b3;
+  background: #ff3399;
+  transform: scale(1.05);
 }
 
-/* --- Filter panel --- */
 .filter-panel {
   display: flex;
-  flex-wrap: wrap;
   gap: 15px;
   margin-bottom: 20px;
-  padding: 15px;
-  background-color: #f7f7f7;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  flex-wrap: wrap;
 }
 
-.filter-panel input[type="text"],
-.filter-panel select {
-  padding: 8px 12px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
+.filter-panel input {
   flex: 1;
-  min-width: 200px;
-  font-size: 14px;
+  padding: 10px;
+  border: 2px solid #ffd6e8;
+  border-radius: 12px;
   outline: none;
-  transition: border-color 0.2s;
+  transition: border 0.3s ease;
 }
 
-.filter-panel input[type="text"]:focus,
+.filter-panel input:focus {
+  border-color: #ff80bf;
+}
+
+.filter-panel select {
+  padding: 10px;
+  border: 2px solid #ffd6e8;
+  border-radius: 12px;
+  outline: none;
+  background: #fff;
+  cursor: pointer;
+  transition: border 0.3s ease;
+}
+
 .filter-panel select:focus {
-  border-color: #007bff;
+  border-color: #ff80bf;
 }
 
-/* --- Product grid --- */
+/* ========================= Product Grid ========================= */
 .product-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 20px;
 }
 
-/* --- Product card --- */
+/* ========================= Product Card ========================= */
 .product-card {
-  background-color: #fff;
-  border-radius: 10px;
+  position: relative;
+  background: #ffffff;
+  border: 2px solid #ffd6e8; /* viền hồng nhạt */
+  border-radius: 15px;
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   padding: 15px;
+  cursor: pointer;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .product-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+  transform: translateY(-5px) scale(1.03);
+  box-shadow: 0 10px 20px rgba(255, 182, 193, 0.3);
 }
 
-/* --- Product image --- */
+/* ========================= Product Image ========================= */
 .product-image {
   width: 100%;
-  height: 180px;
+  height: 220px;
   object-fit: cover;
-  border-radius: 8px;
-  margin-bottom: 10px;
+  border-radius: 12px;
+  margin-bottom: 12px;
+  transition: transform 0.3s ease;
 }
 
+.product-card:hover .product-image {
+  transform: scale(1.05);
+}
+
+/* Fallback image */
 .product-image-fallback {
   width: 100%;
-  height: 180px;
-  background-color: #ddd;
+  height: 220px;
+  background: #ffe6f0;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 8px;
-  font-size: 14px;
-  color: #555;
-  margin-bottom: 10px;
+  color: #ff80bf;
+  font-weight: bold;
+  border-radius: 12px;
+  margin-bottom: 12px;
 }
 
-/* --- Product info --- */
+/* ========================= Product Name & Price ========================= */
 .product-name {
-  font-size: 16px;
+  font-size: 1.1rem;
   font-weight: 600;
-  margin-bottom: 6px;
-  text-align: center;
-  color: #333;
+  color: #ff3366;
+  margin: 0 0 8px 0;
+  transition: color 0.3s ease;
+}
+
+.product-card:hover .product-name {
+  color: #ff1a53;
 }
 
 .product-price {
-  font-size: 15px;
+  font-size: 1rem;
   font-weight: 500;
-  color: #007bff;
-  text-align: center;
+  color: #ff6699;
+  margin: 0;
 }
 
-/* --- Responsive --- */
+/* ========================= Empty & Error States ========================= */
+.product-list-container p {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #ff3366;
+  margin-top: 50px;
+}
+
+/* ========================= Responsive ========================= */
 @media (max-width: 768px) {
   .filter-panel {
     flex-direction: column;
-  }
-
-  .filter-panel input[type="text"],
-  .filter-panel select {
-    min-width: 100%;
   }
 }

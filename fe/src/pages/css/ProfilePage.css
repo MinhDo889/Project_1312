@@ -62,6 +62,7 @@ h3 {
 .profile-display p {
   margin: 8px 0;
   font-size: 14px;
+  color: #333;
 }
 
 .profile-btn,
@@ -155,34 +156,42 @@ h3 {
 }
 
 /* ================= Orders Section ================= */
+/* ================= Orders Section ================= */
 .orders-section {
-  background: #ffdbe7;
-
+  margin: 30px auto;
+  max-width: 1000px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
   padding: 20px;
-  border-radius: 20px;
-  box-shadow: 0 8px 20px rgba(255, 105, 180, 0.1);
-  animation: fadeIn 0.6s ease-in-out;
+  animation: fadeIn 0.6s ease;
+}
+
+.orders-section h2 {
+  font-size: 1.8rem;
+  color: #ff69b4; /* hồng pastel */
+  margin-bottom: 15px;
+  text-align: center;
 }
 
 .order-list {
   list-style: none;
   padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+  margin: 0;
 }
 
 .order-item {
-  background: #fbe4ec;
-
-  padding: 15px;
-  border-radius: 16px;
-  box-shadow: 0 6px 18px rgba(255, 105, 180, 0.1);
-  transition: transform 0.3s ease;
+  border-bottom: 1px solid #eee;
+  padding: 15px 0;
 }
 
-.order-item:hover {
-  transform: translateY(-3px);
+.order-item:last-child {
+  border-bottom: none;
+}
+
+.order-item p {
+  margin: 5px 0;
+  font-size: 0.95rem;
+  color: #555;
 }
 
 .order-items {
@@ -195,139 +204,132 @@ h3 {
 .order-item-detail {
   display: flex;
   gap: 10px;
-  background: #fbe4ec;
-
+  align-items: flex-start;
+  background: #fff0f5; /* hồng nhạt */
   padding: 10px;
-  border-radius: 12px;
-  align-items: center;
+  border-radius: 10px;
   flex: 1 1 200px;
-  transition: box-shadow 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .order-item-detail:hover {
-  box-shadow: 0 6px 16px rgba(255, 105, 180, 0.15);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .order-item-detail img {
-  width: 60px;
-  height: 60px;
+  width: 80px;
+  height: 80px;
   object-fit: cover;
-  border-radius: 12px;
+  border-radius: 8px;
+  border: 1px solid #ffc0cb50;
 }
 
-/* ================= Review Button ================= */
+.order-item-detail div p {
+  margin: 3px 0;
+  font-size: 0.9rem;
+}
+
 .review-btn {
   margin-top: 5px;
-  padding: 6px 12px;
-  border-radius: 10px;
-  border: none;
-  background-color: #ff69b4;
+  padding: 5px 12px;
+  font-size: 0.85rem;
+  background: #ff69b4;
   color: #fff;
-  font-size: 13px;
+  border: none;
+  border-radius: 6px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: background 0.2s ease;
 }
 
 .review-btn:hover {
-  background-color: #ff1493;
-  transform: translateY(-2px);
+  background: #ff85c1;
 }
 
 /* ================= Review Form ================= */
 .review-form-section {
-  margin-top: 30px;
-  background: #fff;
-  padding: 25px 20px;
-  border-radius: 20px;
-  box-shadow: 0 8px 25px rgba(255, 105, 180, 0.15);
   max-width: 600px;
-  animation: slideIn 0.5s ease forwards;
+  margin: 20px auto;
+  background: #fff0f5;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  animation: fadeIn 0.6s ease;
+}
+
+.review-form-section h3 {
+  text-align: center;
+  color: #ff1493;
+  margin-bottom: 15px;
+  font-size: 1.5rem;
 }
 
 .form-group {
-  display: flex;
-  flex-direction: column;
   margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 5px;
+  color: #333;
 }
 
 .form-group select,
 .form-group textarea {
-  padding: 10px;
-  border-radius: 12px;
-  border: 1px solid #ffb6c1;
-  font-size: 14px;
-  transition:
-    border 0.3s ease,
-    box-shadow 0.3s ease;
+  width: 100%;
+  padding: 8px 10px;
+  font-size: 0.95rem;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  transition: border 0.2s ease;
 }
 
-.form-group textarea {
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #ff69b4;
+}
+
+textarea {
   resize: vertical;
   min-height: 80px;
 }
 
 .form-actions {
   display: flex;
+  justify-content: flex-end;
   gap: 10px;
+  margin-top: 10px;
 }
 
 .form-actions button {
-  padding: 10px 20px;
-  border-radius: 12px;
-  border: none;
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  border-radius: 8px;
   cursor: pointer;
-  font-weight: 500;
-  transition: all 0.3s ease;
+  border: none;
+  transition: background 0.2s ease;
 }
 
 .form-actions button[type="submit"] {
-  background-color: #ff69b4;
+  background: #ff69b4;
   color: #fff;
 }
 
 .form-actions button[type="submit"]:hover {
-  background-color: #ff1493;
-  transform: translateY(-2px);
+  background: #ff85c1;
 }
 
 .review-cancel {
-  background-color: #ffb6c1;
-  color: #fff;
+  background: #ddd;
 }
 
 .review-cancel:hover {
-  background-color: #ff69b4;
-  transform: translateY(-2px);
-}
-
-/* ================= Address Suggestions ================= */
-.suggestions-dropdown {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  background: #fff;
-  border: 1px solid #ffb6c1;
-  max-height: 200px;
-  overflow-y: auto;
-  z-index: 10;
-  border-radius: 0 0 12px 12px;
-  animation: fadeIn 0.3s ease;
-}
-
-.suggestions-dropdown li {
-  padding: 8px 10px;
-  cursor: pointer;
-  transition: background 0.3s ease;
-}
-
-.suggestions-dropdown li:hover {
-  background-color: #ffe6f0;
-}
-
-.sub-address {
-  font-size: 12px;
-  color: #666;
+  background: #bbb;
 }
 
 /* ================= Animations ================= */
@@ -342,24 +344,13 @@ h3 {
   }
 }
 
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateX(50px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
 /* ================= Responsive ================= */
-@media (max-width: 900px) {
-  .profile-layout {
-    flex-direction: column;
-  }
-
+@media (max-width: 768px) {
   .order-items {
     flex-direction: column;
+  }
+
+  .order-item-detail {
+    flex: 1 1 100%;
   }
 }

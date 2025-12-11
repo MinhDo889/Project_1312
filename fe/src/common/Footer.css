@@ -35,8 +35,9 @@
 }
 
 .footer-col p {
-  line-height: 1.6;
+  line-height: 1.2;
   color: #d94880;
+  font-size: 17px;
 }
 
 .footer-item {

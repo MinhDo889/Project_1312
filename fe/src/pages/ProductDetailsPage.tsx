@@ -148,8 +148,7 @@ const ProductDetailsPage: React.FC = () => {
 
           {/* TOTAL */}
           <div className="pd-total-box">
-            <p>Tổng tiền:</p>
-            <h2>{totalPrice.toLocaleString()}.000 VNĐ</h2>
+            <h2>Tổng Tiền: {totalPrice.toLocaleString()}.000 VNĐ</h2>
           </div>
 
           {/* BUTTONS */}

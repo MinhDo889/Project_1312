@@ -1,6 +1,5 @@
 import React from "react";
 import "./Footer.css";
-import logon from "../imgList/logon.png";
 
 const Footer: React.FC = () => {
   return (
@@ -31,12 +30,6 @@ const Footer: React.FC = () => {
           <p className="footer-item">
             <span>✉️</span> contact@dscare.vn
           </p>
-
-          {/* LOGO */}
-          <div className="footer-logo-box">
-            {/* Thay ảnh logo của bạn tại đây */}
-            <img src={logon} alt="D$&Care Logo" className="footer-logo" />
-          </div>
         </div>
 
         {/* === CHÍNH SÁCH === */}

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Header from "../common/Header";
 import ProductPage from "../pages/ProductPage";
 import CategoriesPage from "../pages/CategoriesPage";
+import FeatureSection from "../pages/extra/FeatureSection";
 
 import Footer from "../common/Footer"; // ⭐ THÊM FOOTER
 
@@ -98,6 +99,7 @@ const Home: React.FC = () => {
 
       <CategoriesPage />
       <ProductPage />
+      <FeatureSection />
 
       {/* ⭐ THÊM FOOTER Ở ĐÂY */}
       <Footer />
